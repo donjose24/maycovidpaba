@@ -1,49 +1,122 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 
 function App() {
-  const [apiData, setApiData] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [apiData, setApiData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const randomIndex = (length) => {
+    return Math.floor(Math.random() * Math.floor(length));
+  };
+
+  const randomGif = () => {
+    const gifList = [
+      'https://media1.tenor.com/images/f0ced5dc7f46d7105303b58223e0441b/tenor.gif?itemid=17249941',
+      'https://media1.tenor.com/images/867ae049f869b5e63274a9d03f7c5a5e/tenor.gif?itemid=13791096',
+    ];
+
+    const index = randomIndex(gifList.length);
+
+    return gifList[index];
+  };
 
   const fetchData = async () => {
-    const response = await axios.get("https://api.covid19api.com/total/country/philippines")
-    setApiData(response.data[response.data.length-1])
-    setIsLoading(false)
-  }
+    const response = await axios.get(
+      'https://api.covid19api.com/total/country/philippines'
+    );
+    setApiData(response.data[response.data.length - 1]);
+    setIsLoading(false);
+  };
 
   const info = () => {
     if (isLoading) {
-      return (<img src={ process.env.PUBLIC_URL + '/spinner.gif'} alt ="loading.."/>)
+      return (
+        <img src={process.env.PUBLIC_URL + '/spinner.gif'} alt="loading.." />
+      );
     } else {
       return (
-        <div>
-          <h5>
-            Total confirmed cases: <span style={{color: 'red'}}>{apiData.Confirmed.toLocaleString()}</span> <br/>
-            Total active cases: <span style={{color: 'red'}}>{apiData.Active.toLocaleString()}</span> <br/>
-            Total recoveries: <span style={{color: 'green'}}>{apiData.Recovered.toLocaleString()} </span><br/>
-            Total deaths: <span style={{color: 'red'}}>{apiData.Deaths.toLocaleString()}</span> <br/>
-          </h5>
+        <div className="data-list-container">
+          <div>
+            <img
+              src={randomGif()}
+              style={{
+                width: 300,
+                height: 168,
+                maxWidth: 683,
+                backgroundColor: 'rgb(63, 63, 63)',
+              }}
+            />
+          </div>
+          <ul className="data-list">
+            <li>
+              <span>Total confirmed cases:</span>
+              <span
+                style={{ color: 'red', fontWeight: 600, marginLeft: '10px' }}
+              >
+                {apiData.Confirmed.toLocaleString()}
+              </span>
+            </li>
+            <li>
+              <span>Total active cases:</span>
+              <span
+                style={{ color: 'red', fontWeight: 600, marginLeft: '10px' }}
+              >
+                {apiData.Active.toLocaleString()}
+              </span>
+            </li>
+            <li>
+              <span>Total recoveries:</span>
+              <span style={{ color: 'green', fontWeight: 600 }}>
+                {apiData.Recovered.toLocaleString()}
+              </span>
+            </li>
+            <li>
+              <span>Total deaths:</span>
+              <span
+                style={{ color: 'red', fontWeight: 600, marginLeft: '10px' }}
+              >
+                {apiData.Deaths.toLocaleString()}
+              </span>
+            </li>
+          </ul>
         </div>
-      )
+      );
     }
-  }
+  };
 
   useEffect(() => {
-    fetchData().then()
-  }, [])
+    fetchData().then();
+  }, []);
+
+  const randomQuote = () => {
+    const quotes = [
+      'Huwag lumabas kung di naman kailangan.',
+      'Bawal pa mag mañanita.',
+    ];
+    const index = randomIndex(quotes.length);
+
+    return quotes[index];
+  };
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>
-          <span className="with-emphasis">OO</span><span className="breakable"> </span> may <span className="breakable"> COVID-19 pa.</span>
+        <h1
+          className="important-header with-emphasis"
+          style={{ marginBottom: 0 }}
+        >
+          OO
         </h1>
-        <h3>
-          Huwag lumabas kung di naman kailangan.
-        </h3>
-          { info() }
-        </header>
+        <span
+          className="breakable important-header"
+          style={{ marginTop: 0, marginBottom: '20px', padding: 10 }}
+        >
+          may COVID-19 pa.
+        </span>
+        <h3>{randomQuote()}</h3>
+        <div>{info()}</div>
+      </header>
     </div>
   );
 }
