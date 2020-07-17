@@ -23,9 +23,9 @@ function App() {
 
   const fetchData = async () => {
     const response = await axios.get(
-      'https://api.covid19api.com/total/country/philippines'
+      'https://corona.lmao.ninja/v2/countries/philippines?yesterday=true&strict=true'
     );
-    setApiData(response.data[response.data.length - 1]);
+    setApiData(response.data);
     setIsLoading(false);
   };
 
@@ -50,11 +50,19 @@ function App() {
           </div>
           <ul className="data-list">
             <li>
+              <span>Total tests:</span>
+              <span
+                style={{ color: 'orange', fontWeight: 600, marginLeft: '10px' }}
+              >
+                {apiData.tests.toLocaleString()}
+              </span>
+            </li>
+            <li>
               <span>Total confirmed cases:</span>
               <span
                 style={{ color: 'red', fontWeight: 600, marginLeft: '10px' }}
               >
-                {apiData.Confirmed.toLocaleString()}
+                {apiData.cases.toLocaleString()}
               </span>
             </li>
             <li>
@@ -62,13 +70,13 @@ function App() {
               <span
                 style={{ color: 'red', fontWeight: 600, marginLeft: '10px' }}
               >
-                {apiData.Active.toLocaleString()}
+                {apiData.active.toLocaleString()}
               </span>
             </li>
             <li>
               <span>Total recoveries:</span>
               <span style={{ color: 'green', fontWeight: 600 }}>
-                {apiData.Recovered.toLocaleString()}
+                {apiData.recovered.toLocaleString()}
               </span>
             </li>
             <li>
@@ -76,7 +84,7 @@ function App() {
               <span
                 style={{ color: 'red', fontWeight: 600, marginLeft: '10px' }}
               >
-                {apiData.Deaths.toLocaleString()}
+                {apiData.deaths.toLocaleString()}
               </span>
             </li>
           </ul>
@@ -92,7 +100,8 @@ function App() {
   const randomQuote = () => {
     const quotes = [
       'Huwag lumabas kung di naman kailangan.',
-      'Bawal pa mag mañanita.',
+      'Bawal pa rin mag mañanita.',
+      'Bat wala pa ring mass testing?',
     ];
     const index = randomIndex(quotes.length);
 
