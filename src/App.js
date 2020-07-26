@@ -87,6 +87,14 @@ function App() {
                 {apiData.deaths.toLocaleString()}
               </span>
             </li>
+            <li>
+              <span>Total resurrections:</span>
+              <span
+                style={{ color: 'green', fontWeight: 600, marginLeft: '10px' }}
+              >
+                1
+              </span>
+            </li>
           </ul>
         </div>
       );
